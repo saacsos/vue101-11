@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    {{ number }}
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -35,7 +36,8 @@
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: String,
+    number: String
   }
 }
 </script>
@@ -44,6 +46,7 @@ export default {
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
+  color: red;
 }
 ul {
   list-style-type: none;
