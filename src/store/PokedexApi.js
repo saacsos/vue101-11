@@ -40,22 +40,23 @@ export default new Vuex.Store({
     },
 
     async addPokemon({ commit }, payload) {
+      // todo: หาว่า type เป็น id อะไร
+      let qs = payload.pokemon_types.map((it) => "name_in=" + it).join("&")
+      let res_types = await Axios.get(api_endpoint + "/types?" + qs)
+
       let url = api_endpoint + "/monsters"
       let body = {
         name: payload.name,
         name_jp: payload.name_jp,
+        pokemon_types: res_types.data.map((it) => it.id),
       }
 
-      // todo: หาว่า type เป็น id อะไร
-      // let type_ids = []
-      // for (let type of payload.pokemon_types) {
-      //   let types = await Axios.get(api_endpoint + "/types?name=" + type)
-      //   type_ids.push(types.data.id)
-      // }
-
       let res = await Axios.post(url, body)
-      let data = res.data
-      commit("add", data)
+      if (res.status === 200) {
+        commit("add", res.data)
+      } else {
+        console.error(res)
+      }
     },
 
     async editPokemon({ commit }, payload) {
