@@ -46,7 +46,7 @@ export default {
         pokemon_types: ""
       }
     },
-    addPokemon() {
+    async addPokemon() {
       let payload = {
         name: this.form.name,
         name_jp: this.form.name_jp,
@@ -54,9 +54,14 @@ export default {
       }
 
       console.log(payload)
-      PokedexApiStore.dispatch("addPokemon", payload)
-
-      this.clearForm()
+      let res = await PokedexApiStore.dispatch("addPokemon", payload)
+      if (res.success) {
+        this.clearForm()
+        this.$router.push("/pokedex")
+      } else {
+        this.$swal("Add Failed", res.message, "error")
+      }
+      
     },
   },
 }
